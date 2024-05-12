@@ -1,0 +1,340 @@
+<!--
+*  SeedaItemListing.html
+*
+ Version 2
+*
+* 11/05/2024 
+*	
+* @reference https://www.youtube.com/watch?v=vkqZC_rEkVA
+* @author Emma Carroll, Student ID x20226314
+*
+*-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seeds</title>
+    <!-- CSS -->
+ <link rel="stylesheet" href="LandListing.css" />
+    <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="header.css" />
+    <link rel="stylesheet" href="searchbar.css" />
+    <link rel="stylesheet" href="searchDonations.css" />
+    <link rel="stylesheet" href="itemListingInputForm.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+ 
+</head>
+<body>
+    <header>
+        <!--navbar-->
+        <container id="nav-bar">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <div class="container">
+                         <a class="navbar-brand" href="#"><img src="images/Logo.png"></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link" aria-current="page" href="home.html">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="Q&A.html">Q&A</a></li>
+                            <li class="nav-item"><a class="nav-link" href="LandListing.html">Listed Land</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Donated Items</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Seeds</a></li>
+                                        <li><a class="dropdown-item" href="PlantItemListing.html">Plants</a></li>
+                                        <li><a class="dropdown-item" href="TreesItemListings.html">Trees</a></li>
+                                        <li><a class="dropdown-item" href="ToolsItemListing.html">Tools</a></li>
+                                    </ul>
+                            </li>
+                            <li class="nav-item">
+                                <form class="d-flex">
+                                  <button class="btn btn-outline-success" type="button" id="signoutbutton">Sign Out</button>
+                                </form>
+                              </li>
+                        </ul>
+                    </div>
+                </div>
+              </nav>
+          </container>
+    </header>
+<!-- Ad block -->
+        <div style="max-width: 30%; margin:auto;">
+            <div class="container-fluid ">
+                <div class="advertisment-box">
+                    <img src="images/addspace.PNG"  class="img-fluid" alt="Responsive image">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+    <div class="title text-center mt-4">
+        <h1>Seeds Availble for Donation</h1>
+    </div>
+    <div class="search-bar text-center mt-4">
+        <input type="text" id="searchInput" placeholder="search by description or location">
+        <button type="button" id="searchButton">Search</button>
+    </div>
+    <div class="instruction p-3 mt-4">
+        <p>Please fill out the following required information to make you donation</p>
+    </div>
+    <caption>The date/time field refers to when the item will be available.</caption>
+    <!--form submission-->
+    <form id="seedsdonationForm">
+            <div class="input-row">
+                <input type="descriptionItem" id="descriptionItem" name="descriptionItem" placeholder="● description of Item">
+                <input type="username" id="username" name="username" placeholder="● username">
+                <input type="datetime-local" id="datetime" name="datetime">
+                <input type="location" id="location" name="location" placeholder="● location">
+                <button type="button" id="submit">submit</button>
+            </div>
+    </form>
+     <!-- Table -->
+    <div class="container mt-4 table-responsive">
+        <table class="table mb-4 align-middle table-bordered border-dark table-hover table-info table-striped caption-top">
+                <thead>
+                    <tr class="table-warning">
+                        <th>Description of Item</th>
+                        <th>Donator</th>
+                        <th>Date & Time of Availability</th>
+                        <th>Location</th>
+                        <th>Apply</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+
+        <!--footer-->
+    </br>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <div id="pagination" class="d-flex justify-content-center">
+                    <button id="prevPage" class="btn btn-secondary">Previous</button>
+                    <span id="current"></span> <!-- Placeholder for current page -->
+                    <button id="nextPage" class="btn btn-secondary">Next</button>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</br>
+</br>
+    <footer>
+        <span class="nci">&copy; &nbsp;NCI | All rights reservered </span>
+    </footer>
+    <!--bootstrap-->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+     <!--firebase-->
+     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+     <script>
+        // Pagination code
+        document.addEventListener('DOMContentLoaded', function (){
+            const pageRows = 5;//Define the number of rows per page
+            let current = 1;//initalise current page
+            //update pagination based on current page and total pages
+
+            const updatePagination = () =>{
+                //Based on the total number of rows and rows per page the following code calculates the toatal number of pages
+                const totalPages = Math.ceil(document.querySelectorAll('tbody tr').length/pageRows);
+                const previousBtn = document.getElementById('prevPage');
+                const nextBtn = document.getElementById('nextPage');
+                const currentPage = document.getElementById('current');
+
+                //disable previousBtn if on first page
+                previousBtn.disabled = current ===1;
+                //disable nextBtn if on last page
+                nextBtn.disabled = current ===totalPages;
+                currentPage.textContent = `Page ${current} of ${totalPages}`;
+            };
+            // undates which rows are displayed on the current page
+            const updateRows = () =>{
+                const rows = document.querySelectorAll('tbody tr');
+                const start =(current-1)*pageRows;
+                const end = current*pageRows;
+                rows.forEach((row,index)=>{
+                    if (index>=start&&index < end){
+                        row.style.display='';
+                    } else{
+                        row.style.display='none';
+                    }
+                });
+            };
+             // Call updatePagination() to initially display the first 5 rows
+            updatePagination();
+             // Call updateRows()
+            updateRows();
+            
+            // event listener activated by previous button button
+            document.getElementById('prevPage').addEventListener('click',()=>{
+                if (current>1){
+                    current--;
+                    updatePagination();
+                    updateRows();
+                }
+            });
+            // event listener activated by next button
+            document.getElementById('nextPage').addEventListener('click',()=>{
+                // calculates the total number of pages
+                const totalPages = Math.ceil(document.querySelectorAll('tbody tr').length/pageRows)
+                if (current<totalPages){
+                    current++;
+                    updatePagination();
+                    updateRows();
+                }
+            });
+            const tableObserver = new MutationObserver(mutations=>{
+                mutations.forEach(mutation=>{
+                    if(mutation.type === 'childList'){
+                        updatePagination();// call updatePagination(); if an addition is made to the childlist 
+                    }
+                });
+            });
+            //observing changes in the table body
+            tableObserver.observe(document.querySelector('tbody'),{childList: true});
+        });
+    </script>
+     <script>
+        var firebaseConfig = {
+        apiKey: "AIzaSyDVsxV9iY9hlisYmpQA875V1S2gSGFqne0",
+        authDomain: "practise-92fd9.firebaseapp.com",
+        projectId: "practise-92fd9",
+        storageBucket: "practise-92fd9.appspot.com",
+        messagingSenderId: "735795758312",
+        appId: "1:735795758312:web:bba76482532f0d0f45f55d",
+        measurementId: "G-SJVWHMPJ9M",
+        databaseURL: "https://practise-92fd9-default-rtdb.europe-west1.firebasedatabase.app",
+      };
+      // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+</script>
+      <script >
+        // @reference https://www.youtube.com/watch?v=vkqZC_rEkVA
+        const formEL = document.getElementById('seedsdonationForm');
+        const tbodyEL = document.querySelector('tbody');
+        const tableEl = document.querySelector("table");
+        //populate the table with the values from the form
+        //@author Emma Carroll, Student ID x20226314
+        function AddSeedsDonation(e) {
+            console.log("addDon started");
+        e.preventDefault();//pervents the default form submission
+    //Retrieve values from form fields
+        const descriptionItem = document.getElementById('descriptionItem').value;
+        const username = document.getElementById('username').value;
+        const datetime = document.getElementById('datetime').value;
+        const location = document.getElementById('location').value;
+    
+        //checks if all fields are filled
+        if (descriptionItem && username && datetime && location) {
+            //Add new document to firestore database
+            db.collection("seeds_donations").add({
+                descriptionItem: descriptionItem,
+                username: username,
+                datetime: datetime,
+                location: location
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ", docRef.id);
+                document.getElementById('seedsdonationForm').reset();//Reset form frields
+                fetchDonations();
+            })
+            .catch((error) => {
+                console.error("Error adding document: ", error);
+            });
+        }
+    }
+    //function to fetch documents from firestore database collection and display them as rows in the table's body
+    function fetchDonations() {
+    tbodyEL.innerHTML = '';//claer table body
+    db.collection("seeds_donations").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            //Retrieve donation data from Firestore document
+            console.log(doc.id, " => ", doc.data());
+            //add table rows
+            const data = doc.data();
+            tbodyEL.innerHTML +=`
+                <tr>
+                    <td><div class="cell-content" data-full-text="">${data.descriptionItem}</div></td>
+                    <td><div class="cell-content" data-full-text="">${data.username}</div></td>
+                    <td><div class="cell-content" data-full-text="">${data.datetime}</div></td>
+                    <td><div class="cell-content" data-full-text="">${data.location}</div></td>
+                    <td><button class="applybtn" data-email="${data.username}">Apply</button></td>
+                </tr>
+            `;
+        });
+    });
+}
+
+// Call fetchDonations when the page loads
+document.addEventListener('DOMContentLoaded', fetchDonations);
+        // @reference https://www.youtube.com/watch?v=vkqZC_rEkVA
+        //function for the event triggered by clickiny the apply button
+        function bringToForm(e) {
+            if (!e.target.classList.contains("applybtn")) {
+              return;
+            }
+            //@author Emma Carroll, Student ID x20226314
+            //Retrieve "email" from table row
+            const row =e.target.closest("tr");
+        const email = row.querySelector("td:nth-child(2)").textContent;
+        //Store "email" in session storage
+        sessionStorage.setItem("applicant-email", JSON.stringify(email));
+    
+            window.location.href = 'applicationform.html';//bring to when applybtn is clicked
+          }
+         // @reference https://www.youtube.com/watch?v=vkqZC_rEkVA
+         document.getElementById('submit').addEventListener('click', AddSeedsDonation);
+        tableEl.addEventListener("click", bringToForm);
+        </script>
+
+           <script>
+            function searchDonations(){
+                const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');//Select all table rows
+                if(rows.length === 0){
+                    console.log("decription not found");
+                    return;
+                }
+                //iterate through each row of the table to find matches
+                rows.forEach(row => {
+                    const descriptionItem = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    const location= row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                    //check if the table row's descriptionItem or location matches the search query
+                    if(descriptionItem.includes(searchQuery)||location.includes(searchQuery)){
+                        row.style.display = '';//show row
+                        console.log("row found");}  
+                else{
+                    row.style.display = 'none'; //hide row
+                    console.log("hidden rows worked");
+                }
+                });
+            }
+            //event listener for search button
+            document.getElementById('searchButton').addEventListener('click', searchDonations);
+        </script>
+
+<script>
+    //check user credentials on page load
+    const UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+    const UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+  
+    const checkCred = () => {
+      if (!UserCreds) window.location.href = 'login.html';//if  user credentials not found bring to login.html
+    };
+  
+    const signout = () => {
+      sessionStorage.clear();//clear session storage 
+      window.location.href = 'login.html';//bring to login.html
+    };
+  
+    window.addEventListener('load', checkCred);
+    document.getElementById('signoutbutton').addEventListener('click', signout);
+  </script>
+        </body>
+    </html>

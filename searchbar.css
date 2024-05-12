@@ -1,0 +1,31 @@
+/*  
+*searchbar.css
+* 
+ Version 2
+*
+* 11/05/2024 
+*	
+* @author Emma Carroll, Student ID x20226314
+*
+*/
+.search-bar input{
+    padding: 10px;
+    width:300px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    
+}
+.search-bar button{
+    padding: 10px 20px;
+    background-color: lightgreen;
+    border: none;
+    border-radius: 20px;
+    color: #000;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.search-bar button:hover{
+background-color: green;
+}
+

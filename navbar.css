@@ -1,0 +1,91 @@
+/*  
+*
+* navbar.css
+* 
+ Version 2
+*
+* 11/05/2024 
+*	
+* @author Emma Carroll, Student ID x20226314
+*
+*/
+* {
+    padding: 0;
+    margin: 0;
+  }
+
+body {
+    font-family: "Montserrat", sans-serif;
+  }
+
+  #nav-bar{
+    top:0;
+  }
+
+  .navbar{
+    /* background-color:linear-gradient (to right, white, lightgray); */
+    padding: 2px !important;
+  }
+
+ .navbar-brand img{
+    width: 140px;
+    height: auto;
+} 
+
+.navbar-nav li a{
+    text-align: center;
+    color: rgb(133, 58, 24);
+    font-weight: 700;
+    white-space: nowrap;
+    
+}
+
+.navbar-nav .nav-link:hover{
+    color: darkgreen;
+    background-color: lightgreen;
+  }
+
+  .dropdown-menu{
+    overflow: hidden;
+  }
+
+    /* Dropdown content (hidden by default) */
+    .dropdown-content{
+        display: none;
+        position: absolute;
+        background-color: lightgray;
+        box-shadow: darkslategray;
+      }
+      
+      /* Links inside the dropdown */
+       .dropdown-content a {
+        float: none;
+        color: rgb(133, 58, 24);
+        padding: 10px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      } 
+
+
+
+  /* Show the dropdown menu on hover */
+  .dropdown-menu:hover .dropdown-menu.show{
+    display: block;
+  }
+
+  
+#signoutbutton {
+  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 10px;
+  color: red;
+  background-color: lightgreen;
+}
+
+#signoutbutton:hover {
+  color: black;
+  background-color: red;
+}
+
